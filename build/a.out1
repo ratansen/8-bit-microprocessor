@@ -1,18 +1,12 @@
-**** module/scope: adder_ripple_8bit
+**** module/scope: demux_8line_8bit
      Flip-Flops   : 0
-     Logic Gates  : 104
-     ADDER[8]: 1 units
-     EQUALITY[4]: 3 units
-     MUX[2]: 24 slices
-     LPM[8]: 1 unaccounted
+     Logic Gates  : 0
+     LPM[5]: 8 unaccounted
      LOG[13]: 1 unaccounted
      LOG[14]: 1 unaccounted
 **** TOTALS
      Flip-Flops   : 0
-     Logic Gates  : 104
-     ADDER[8]: 1 units
-     EQUALITY[4]: 3 units
-     MUX[2]: 24 slices
-     LPM[8]: 1 unaccounted
+     Logic Gates  : 0
+     LPM[5]: 8 unaccounted
      LOG[13]: 1 unaccounted
      LOG[14]: 1 unaccounted

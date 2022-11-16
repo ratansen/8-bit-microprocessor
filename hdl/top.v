@@ -1,4 +1,3 @@
-
 module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
     output tri [3:0] bus_high;
     output tri [3:0] bus_low;
@@ -83,7 +82,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
         .d(bus), .q(b_reg_out), .i_en(ld_b_reg), .clr(clr), .clk(buf_clk)
     );
 
-    adder_sub_8 asub(.A(acc_out), .B(b_reg_out), .sub(sub_add), .cout(), .out(bus), .out_en(subadd_out_en));
+    alu_latch asub(.A(acc_out), .B(b_reg_out), .sub(sub_add), .cout(), .out(bus), .out_en(subadd_out_en));
     assign carry_flag = asub.cout;
 
     wire ld_out_reg;
