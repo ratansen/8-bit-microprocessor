@@ -1,12 +1,6 @@
-**** module/scope: demux_8line_8bit
+**** module/scope: full_adder_1bit
      Flip-Flops   : 0
-     Logic Gates  : 0
-     LPM[5]: 8 unaccounted
-     LOG[13]: 1 unaccounted
-     LOG[14]: 1 unaccounted
+     Logic Gates  : 7
 **** TOTALS
      Flip-Flops   : 0
-     Logic Gates  : 0
-     LPM[5]: 8 unaccounted
-     LOG[13]: 1 unaccounted
-     LOG[14]: 1 unaccounted
+     Logic Gates  : 7
