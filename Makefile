@@ -4,7 +4,7 @@ LIBRARIES   = $(wildcard test/tb_top.v)
 build:
 	iverilog -o computer -Wall \
 		$(COMPUTER) \
-		$(LIBRARIES) 
+		$(LIBRARIES)
 
 run: build
 	vvp -n computer

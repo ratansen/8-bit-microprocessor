@@ -31,6 +31,7 @@ module control_sequencer(
     output subadd_out_en,
     output low_ld_b_reg,
     output low_ld_out_reg,
+    //output [3:0] operation_new,
     output low_halt
 );
     wire lda, add, sub, out;
@@ -58,10 +59,10 @@ module control_sequencer(
     assign low_mem_out_en = ~(t[3] | (t[1] & (add | lda | sub)));
     assign low_ld_ir = ~t[3];
     assign low_ir_out_en = ~(t[2] & ((add | lda | sub)));
-    assign low_ld_acc = ~((t[1] & lda) | (t[0] & (add | sub)));
+    assign low_ld_acc = ~((t[1] & lda) | (t[0] & (op_code[0] | op_code[1] | op_code[2] | op_code[3] )));
     assign acc_out_en = t[2] & out;
     assign sub_add = t[0] & sub;
     assign subadd_out_en = t[0] & (add | sub);
-    assign low_ld_b_reg = ~(t[1] & (add | sub));
+    assign low_ld_b_reg = ~(t[1] & (op_code[0] | op_code[1] | ~op_code[2] | ~op_code[3] ));
     assign low_ld_out_reg = ~(t[2] & out);
 endmodule

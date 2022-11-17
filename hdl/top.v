@@ -17,6 +17,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
     wire inc, pc_out_en, low_ld_mar, low_mem_out_en, low_ld_ir, low_ir_out_en, low_halt;
     wire low_ld_acc, acc_out_en, sub_add, subadd_out_en, low_ld_b_reg, low_ld_out_reg;
     wire [3:0] op_code;
+    //wire [3:0] operation_new;
     control_sequencer seq(
         .op_code(op_code),
         .clk(buf_clk),
@@ -34,6 +35,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
         .low_ld_b_reg(low_ld_b_reg),
         .low_ld_out_reg(low_ld_out_reg),
         .low_halt(low_halt)
+        //.operation_new(operation_new)
     );
 
     // Clock buffer
@@ -62,7 +64,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
     );
 
     tribuf_4bit buf0(.in(ir_out[3:0]), .out(bus[3:0]), .low_enable(low_ir_out_en));
-    assign op_code = ir_out[7:4]; // Directly pass to control_sequencer
+    assign op_code = ir_out[7:4]; // Directly pass to control_sequencer // this is the opcode we can use directly 
 
 
     wire [7:0] acc_out;
@@ -82,7 +84,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
         .d(bus), .q(b_reg_out), .i_en(ld_b_reg), .clr(clr), .clk(buf_clk)
     );
 
-    alu_latch asub(.A(acc_out), .B(b_reg_out), .sub(sub_add), .cout(), .out(bus), .out_en(subadd_out_en));
+    alu_latch asub(.A(acc_out), .B(b_reg_out), .sub(sub_add),.op_new(op_code), .cout(), .out(bus), .out_en(subadd_out_en));  //here op_code is given to alu_latch
     assign carry_flag = asub.cout;
 
     wire ld_out_reg;

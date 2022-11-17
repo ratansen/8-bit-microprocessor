@@ -2,6 +2,7 @@ module alu_latch(
     input [7:0] A, B,
     input sub,
     input out_en,
+    input [3:0] op_new,
     output cout,
     output [7:0] out
 );
@@ -10,7 +11,7 @@ module alu_latch(
 
 
     alu r1(
-        .a(A), .b(B), .cin(cin_adder), .operation(sub),
+        .a(A), .b(B), .cin(cin_adder), .sub(sub) ,.operation(op_new),
         .sum(add_sub_out), .cout(cout)
     );
 
