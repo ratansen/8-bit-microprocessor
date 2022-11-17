@@ -11,14 +11,17 @@ module alu(
 
     always @(*) begin
         if(operation == 4'b0001) temp = a + b;
-        else if(operation == 4'b0011) 
-            begin
-            
-            temp = a - b;
-            $display("case 1 =%d ",a);
-            end
-        // else if(operation == 4'b0011) temp = a | b;
-        $display("here = %b ",operation);
+        else if(operation == 4'b0010) 
+        temp = a - b;
+        else if(operation == 4'b0011)
+        temp = a | b;
+        else if(operation == 4'b0100) 
+        temp = a & b;
+        else if(operation == 4'b0101)
+        temp = a ^ b;
+        else if(operation == 4'b0110) 
+        temp = ~a;
+        
     end
     
     assign sum = temp;

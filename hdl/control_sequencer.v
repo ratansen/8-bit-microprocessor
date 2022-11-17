@@ -27,17 +27,18 @@ module control_sequencer(
     output low_ir_out_en,
     output low_ld_acc,
     output acc_out_en,
-    output sub_add,
+    output sub_add,xor_ratna,and_ratna,cmp_ratna,or_ratna ,
     output subadd_out_en,
     output low_ld_b_reg,
     output low_ld_out_reg,
+
     //output [3:0] operation_new,
     output low_halt
 );
     wire lda, add, sub, out;
     wire [5:0] t;
 
-    instruction_decoder decoder(.op_code(op_code),.lda(lda),.add(add),.sub(sub),.out(out),.low_halt(low_halt));
+    instruction_decoder decoder(.op_code(op_code),.lda(lda),.add(add),.sub(sub),.out(out),.low_halt(low_halt),.xor_ratna(xor_ratna),.and_ratna(and_ratna),.cmp_ratna(cmp_ratna),.or_ratna(or_ratna));
     ring_counter counter(.t(t), .clk(clk),.res(clr));
 
     // assign inc = t[1];
@@ -52,17 +53,23 @@ module control_sequencer(
     // assign low_mem_out_en = ~(t[2] | (t[4] & (add | lda | sub)));
     // assign low_ir_out_en = ~(t[3] & ((add | lda | sub)));
     // assign low_ld_acc = ~((t[4] & lda) | (t[5] & (add | sub)));
-
+    assign aluon = (add | sub | xor_ratna | and_ratna | or_ratna | cmp_ratna);
     assign inc = t[4];
     assign pc_out_en = t[5];
-    assign low_ld_mar = ~(t[5] | (t[2] & (add | lda | sub)));
-    assign low_mem_out_en = ~(t[3] | (t[1] & (add | lda | sub)));
+    assign low_ld_mar = ~(t[5] | (t[2] & (add | lda | aluon)));
+    assign low_mem_out_en = ~(t[3] | (t[1] & (add | lda | aluon)));
     assign low_ld_ir = ~t[3];
-    assign low_ir_out_en = ~(t[2] & ((add | lda | sub)));
-    assign low_ld_acc = ~((t[1] & lda) | (t[0] & (op_code[0] | op_code[1] | op_code[2] | op_code[3] )));
+    assign low_ir_out_en = ~(t[2] & ((add | lda | aluon)));
+    assign low_ld_acc = ~((t[1] & lda) | (t[0] & (aluon )));
     assign acc_out_en = t[2] & out;
     assign sub_add = t[0] & sub;
-    assign subadd_out_en = t[0] & (add | sub);
-    assign low_ld_b_reg = ~(t[1] & (op_code[0] | op_code[1] | ~op_code[2] | ~op_code[3] ));
+    assign subadd_out_en = t[0] & (aluon);
+    assign low_ld_b_reg = ~(t[1] & (aluon));
+    wire temp;
+    assign temp = low_ld_b_reg;
+    always @(add)
+    begin
+        $display("load b =%b ",add);
+    end
     assign low_ld_out_reg = ~(t[2] & out);
 endmodule

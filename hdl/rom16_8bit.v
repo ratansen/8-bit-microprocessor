@@ -26,14 +26,14 @@ module rom16_8bit(
 
             case(addr)
                 4'h0: data_out = 8'h08; // Program memory starts here.
-                4'h1: data_out = 8'h39;
+                4'h1: data_out = 8'h59;
                 4'h2: data_out = 8'hee;
                 4'h3: data_out = 8'hff;
                 4'h4: data_out = 8'h00;
                 4'h5: data_out = 8'h00;
                 4'h6: data_out = 8'h00;
                 4'h7: data_out = 8'h00;
-                4'h8: data_out = 8'h09; // Data memory starts from here.
+                4'h8: data_out = 8'h07; // Data memory starts from here.
                 4'h9: data_out = 8'h06;
                 4'ha: data_out = 8'h00;
                 4'hb: data_out = 8'h00;
