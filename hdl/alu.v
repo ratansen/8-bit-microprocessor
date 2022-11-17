@@ -9,10 +9,11 @@ module alu(
     reg [7:0] temp;
 
     always @(*) begin
-        if(operation == 4'b0010) temp = a - b;
-        else if(operation == 4'b0001) temp = a + b;
+        if(operation == 4'b0001) temp = a - b;
+        else if(operation == 4'b0010) temp = a + b;
         else if(operation == 4'b0101) temp = a ^ b;
         else temp = a & b;
+        $display("here %d ", operation );
     end
 
     assign sum = temp;

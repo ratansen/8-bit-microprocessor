@@ -1,6 +1,8 @@
-**** module/scope: full_adder_1bit
+**** module/scope: instruction_decoder
      Flip-Flops   : 0
-     Logic Gates  : 7
+     Logic Gates  : 200
+     EQUALITY[32]: 3 units
 **** TOTALS
      Flip-Flops   : 0
-     Logic Gates  : 7
+     Logic Gates  : 200
+     EQUALITY[32]: 3 units
