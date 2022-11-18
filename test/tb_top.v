@@ -2,10 +2,10 @@
 module tb_top();
     reg clk, clr;
     wire [7:0] out;
-    wire [1:0] A;
-    wire [1:0] B;
-    wire [1:0] C;
-    wire [1:0] D;
+    wire [7:0] A;
+    wire [7:0] B;
+    wire [7:0] C;
+    wire [7:0] D;
     wire carry_flag;
     wire zero_flag;
     wire [3:0] bus_high;

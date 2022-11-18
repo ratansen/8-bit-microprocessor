@@ -2,10 +2,10 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
     output tri [3:0] bus_high;
     output tri [3:0] bus_low;
     output [7:0] out;
-    output [1:0] A;
-    output [1:0] B;
-    output [1:0] C;
-    output [1:0] D;
+    output [7:0] A;
+    output [7:0] B;
+    output [7:0] C;
+    output [7:0] D;
     output carry_flag;
     output zero_flag;
     input clk, clr;
@@ -16,6 +16,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
     // Control signals
     wire inc, pc_out_en, low_ld_mar, low_mem_out_en, low_ld_ir, low_ir_out_en, low_halt;
     wire low_ld_acc, acc_out_en, sub_add, subadd_out_en, low_ld_b_reg, low_ld_out_reg;
+    wire low_ld_c, low_ld_d;
     wire [3:0] op_code;
     //wire [3:0] operation_new;
     control_sequencer seq(
@@ -84,7 +85,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
         .d(bus), .q(b_reg_out), .i_en(ld_b_reg), .clr(clr), .clk(buf_clk)
     );
 
-    alu_latch asub(.A(acc_out), .B(b_reg_out), .sub(sub_add),.op_new(op_code), .cout(), .out(bus), .out_en(subadd_out_en));  //here op_code is given to alu_latch
+    alu_latch asub(.A(acc_out), .B(b_reg_out), .C(), .D(), .sub(sub_add),.op_new(op_code), .cout(), .out(bus), .out_en(subadd_out_en));  //here op_code is given to alu_latch
     assign carry_flag = asub.cout;
 
     wire ld_out_reg;

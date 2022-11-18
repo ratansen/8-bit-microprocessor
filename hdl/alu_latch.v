@@ -1,12 +1,12 @@
 module alu_latch(
-    input [7:0] A, B,
+    input [7:0] A, B, C, D,
     input sub,
     input out_en,
     input [3:0] op_new,
     output cout,
     output [7:0] out
 );
-    wire [7:0] dmux0, dmux1, tc_out, B_in, add_sub_out;
+    wire [7:0] dmux0, dmux1, tc_out, B_in, add_sub_out, C_in, D_in;
     parameter cin_adder = 1'b0;
 
 
