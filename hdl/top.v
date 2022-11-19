@@ -18,6 +18,8 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
     wire low_ld_acc, acc_out_en, sub_add, subadd_out_en, low_ld_b_reg, low_ld_out_reg;
     wire low_ld_c, low_ld_d;
     wire [3:0] op_code;
+    wire write_ratna,out_en_ratna;
+    wire [7:0] data_in;
     //wire [3:0] operation_new;
     control_sequencer seq(
         .op_code(op_code),
@@ -54,7 +56,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
     );
 
     rom16_8bit mem(
-        .addr(mar_out), .low_o_en(low_mem_out_en), .data_out(bus)
+        .addr(mar_out), .low_o_en(low_mem_out_en),.acc_out(acc_out), .data_out(bus), .op_code(op_code)
     );
 
     wire [7:0] ir_out;
@@ -66,7 +68,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
 
     tribuf_4bit buf0(.in(ir_out[3:0]), .out(bus[3:0]), .low_enable(low_ir_out_en));
     assign op_code = ir_out[7:4]; // Directly pass to control_sequencer // this is the opcode we can use directly 
-
+    assign rd_rs = ir_out[3:0];
 
     wire [7:0] acc_out;
     wire ld_acc;

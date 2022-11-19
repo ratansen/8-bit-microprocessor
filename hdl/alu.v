@@ -21,6 +21,10 @@ module alu(
         temp = a ^ b;
         else if(operation == 4'b0110) 
         temp = ~a;
+        else if(operation == 4'b0111)
+        temp = b;
+        else if(operation == 4'b1000) 
+        temp = b;
         
     end
     
