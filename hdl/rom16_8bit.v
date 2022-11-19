@@ -15,6 +15,7 @@ module rom16_8bit(
     begin
         mem[8'h0A]= 8'h45;
         mem[8'h08]= 8'h69;
+        mem[8'h09]= 8'h79;
     end
     
     // initial
@@ -58,28 +59,14 @@ module rom16_8bit(
 
             // Output: 0x11111001 (-7 as 2's complement)
             $display("opcode = %h ,addr =  %h ",op_code,addr);
-            if(op_code==4'b0000 && addr!= 4'b0000 && addr !=4'b0010)
-            begin
-                temp= {4'b0000,addr};  ///extended 4 bit 
-                data_out=mem[temp];
-                $display("LDA %h ===> Load Immediate value which is store at %h to Accumulor   //you can check by displaying memory[address]",temp,temp);
-                $display("memory[%h]=%h",temp,data_out);
-                
-            end
-            else if(op_code==4'b1000 && addr !=4'b0010)
-            begin
-                temp= {4'b0000,addr};    ///extended 4 bit 
-                mem[temp] = acc_out; 
-                data_out= mem[temp];
-                $display("STA %h ===> Store the Accumulator value to the address =%h  //you can check by displaying memory[address] ",temp,temp);
-                $display("memory[%h]=%h",temp,acc_out);
-            end
+            
 
-            else 
+             
+            if(addr == 4'b0000 | addr == 4'b0001 |addr == 4'b0010 |addr == 4'b0011 )
             begin
             case(addr)
                 4'h0: data_out = 8'h08; // Program memory starts here.
-                4'h1: data_out = 8'h19;
+                4'h1: data_out = 8'hC9;
                 4'h2: data_out = 8'hee;
                 4'h3: data_out = 8'hff;
                 4'h4: data_out = 8'h00;
@@ -95,9 +82,33 @@ module rom16_8bit(
                 4'he: data_out = 8'h00;
                 4'hf: data_out = 8'h00;
             endcase
-                
-            $display("%h ,data_out = %h",addr, data_out);
+            $display("addr = %h ,data_out = %h",addr, data_out);
             end
+
+            else if(op_code==4'b0000)
+            begin
+                temp= {4'b0000,addr};  ///extended 4 bit 
+                data_out=mem[temp];
+                $display("LDA %h ===> Load Immediate value which is store at %h to Accumulor   //you can check by displaying memory[address]",temp,temp);
+                $display("memory[%h]=%h",temp,data_out);
+                
+            end
+            else if(op_code==4'b1000)
+            begin
+                temp= {4'b0000,addr};    ///extended 4 bit 
+                mem[temp] = acc_out; 
+                data_out= mem[temp];
+                $display("STA %h ===> Store the Accumulator value to the address =%h  //you can check by displaying memory[address] ",temp,temp);
+                $display("memory[%h]=%h",temp,acc_out);
+            end
+            else if(op_code==4'b1100)
+            begin
+                temp= {4'b0000,addr};    ///extended 4 bit 
+                data_out= mem[temp];
+                $display("STA %h ===> Store the Accumulator value to the address =%h  //you can check by displaying memory[address] ",temp,temp);
+                $display("memory[%h]=%h",temp,acc_out);
+            end
+
         end
         
     end
