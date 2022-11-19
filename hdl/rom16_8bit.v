@@ -11,6 +11,14 @@ module rom16_8bit(
     reg [7:0] mem [0:255];
     reg [7:0] buffer;
     reg [7:0] temp;
+    reg [7:0] temp_reg [0:1];
+    initial
+    begin
+        temp_reg[2'b00]= 8'h11;
+        temp_reg[2'b01]= 8'h22;
+        temp_reg[2'b10]= 8'h33;
+        temp_reg[2'b11]= 8'h44;
+    end
     initial
     begin
         mem[8'h0A]= 8'h45;
@@ -60,23 +68,27 @@ module rom16_8bit(
             // Output: 0x11111001 (-7 as 2's complement)
             $display("opcode = %h ,addr =  %h ",op_code,addr);
             
+            /// in 2nd time it has 00000001
+            if(op_code == 4'b0100 && addr != 4'b0001 && addr != 4'b0010 && addr!=4'b0011)
+            begin
+                data_out = temp_reg[addr[1:0]];
+            end
 
-             
-            if(addr == 4'b0000 | addr == 4'b0001 |addr == 4'b0010 |addr == 4'b0011 )
+            else if(addr == 4'b0000 | addr == 4'b0001 |addr == 4'b0010 |addr == 4'b0011)
             begin
             case(addr)
                 4'h0: data_out = 8'h08; // Program memory starts here.
-                4'h1: data_out = 8'hC9;
+                4'h1: data_out = 8'h49;
                 4'h2: data_out = 8'hee;
                 4'h3: data_out = 8'hff;
                 4'h4: data_out = 8'h00;
                 4'h5: data_out = 8'h00;
                 4'h6: data_out = 8'h00;
                 4'h7: data_out = 8'h00;
-                4'h8: data_out = 8'h06; // Data memory starts from here.
-                4'h9: data_out = 8'h07;
-                4'ha: data_out = 8'h00;
-                4'hb: data_out = 8'h00;
+                4'h8: data_out = 8'h06;   /// Data memory starts from here. //A 
+                4'h9: data_out = 8'h07;   ///B
+                4'ha: data_out = 8'h00;   ///C
+                4'hb: data_out = 8'h00;   ///D
                 4'hc: data_out = 8'h00;
                 4'hd: data_out = 8'h00;
                 4'he: data_out = 8'h00;
