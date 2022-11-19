@@ -36,10 +36,10 @@ module control_sequencer(
     //output [3:0] operation_new,
     output low_halt
 );
-    wire lda, add, sub, out;
+    wire lda, add, sub, out,add_imm, move, move_imm, sub_imm;
     wire [5:0] t;
 
-    instruction_decoder decoder(.op_code(op_code),.lda(lda),.add(add),.sub(sub),.out(out),.low_halt(low_halt),.xor_ratna(xor_ratna),.and_ratna(and_ratna),.cmp_ratna(cmp_ratna),.or_ratna(or_ratna),.lda_imm(lda_imm),.sta_imm(sta_imm));
+    instruction_decoder decoder(.op_code(op_code), .lda(lda), .store(store), .move(move), .move_imm(move_imm), .add(add), .add_imm(add_imm), .sub(sub), .sub_imm(sub_imm), .compare(compare), .cmp_imm(cmp_imm), .and_ratna(and_ratna), .and_imm(and_imm), .or_ratna(or_ratna) , .or_imm(or_ratna), .xor_ratna(xor_ratna), .xor_imm(xor_imm), .low_halt(low_halt));
     ring_counter counter(.t(t), .clk(clk),.res(clr));
 
     // assign inc = t[1];
@@ -54,7 +54,8 @@ module control_sequencer(
     // assign low_mem_out_en = ~(t[2] | (t[4] & (add | lda | sub)));
     // assign low_ir_out_en = ~(t[3] & ((add | lda | sub)));
     // assign low_ld_acc = ~((t[4] & lda) | (t[5] & (add | sub)));
-    assign aluon = (add | sub | xor_ratna | and_ratna | or_ratna | cmp_ratna | lda_imm | sta_imm);
+    //add | add_imm | sub | sub_imm | compare | cmp_imm | and_ratna | and_imm | or_ratna  | xor_ratna  | xor_imm
+    assign aluon = (add | add_imm | sub | sub_imm | compare | cmp_imm | and_ratna | and_imm | or_ratna  | xor_ratna  | xor_imm);
     assign inc = t[4];
     assign pc_out_en = t[5];
     assign low_ld_mar = ~(t[5] | (t[2] & (add | lda | aluon)));

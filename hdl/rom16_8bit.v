@@ -14,6 +14,7 @@ module rom16_8bit(
     initial
     begin
         mem[8'h0A]= 8'h45;
+        mem[8'h08]= 8'h69;
     end
     
     // initial
@@ -56,18 +57,18 @@ module rom16_8bit(
             // HLT
 
             // Output: 0x11111001 (-7 as 2's complement)
-            
-            if(op_code==4'b0111 && addr !=4'b0010)
+            $display("opcode = %h ,addr =  %h ",op_code,addr);
+            if(op_code==4'b0000 && addr!= 4'b0000 && addr !=4'b0010)
             begin
-                temp= {4'b0000,addr};
+                temp= {4'b0000,addr};  ///extended 4 bit 
                 data_out=mem[temp];
-                $display("LDI %h ===> Load Immediate value which is store at %h to Accumulor   //you can check by displaying memory[address]",temp,temp);
+                $display("LDA %h ===> Load Immediate value which is store at %h to Accumulor   //you can check by displaying memory[address]",temp,temp);
                 $display("memory[%h]=%h",temp,data_out);
                 
             end
             else if(op_code==4'b1000 && addr !=4'b0010)
             begin
-                temp= {4'b0000,addr};
+                temp= {4'b0000,addr};    ///extended 4 bit 
                 mem[temp] = acc_out; 
                 data_out= mem[temp];
                 $display("STA %h ===> Store the Accumulator value to the address =%h  //you can check by displaying memory[address] ",temp,temp);
@@ -78,7 +79,7 @@ module rom16_8bit(
             begin
             case(addr)
                 4'h0: data_out = 8'h08; // Program memory starts here.
-                4'h1: data_out = 8'h8A;
+                4'h1: data_out = 8'h19;
                 4'h2: data_out = 8'hee;
                 4'h3: data_out = 8'hff;
                 4'h4: data_out = 8'h00;
@@ -86,7 +87,7 @@ module rom16_8bit(
                 4'h6: data_out = 8'h00;
                 4'h7: data_out = 8'h00;
                 4'h8: data_out = 8'h06; // Data memory starts from here.
-                4'h9: data_out = 8'h00;
+                4'h9: data_out = 8'h07;
                 4'ha: data_out = 8'h00;
                 4'hb: data_out = 8'h00;
                 4'hc: data_out = 8'h00;
@@ -95,7 +96,7 @@ module rom16_8bit(
                 4'hf: data_out = 8'h00;
             endcase
                 
-            //$display("%h ,data_out = %h",addr, data_out);
+            $display("%h ,data_out = %h",addr, data_out);
             end
         end
         

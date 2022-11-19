@@ -10,21 +10,15 @@ module alu(
     reg [7:0] temp;
 
     always @(*) begin
-        if(operation == 4'b0001) temp = a + b;
-        else if(operation == 4'b0010) 
+        if(operation == 4'b0100 || operation == 4'b1100) temp = a + b;
+        else if(operation == 4'b0101 || operation == 4'b1101) 
         temp = a - b;
-        else if(operation == 4'b0011)
+        else if(operation == 4'b1000  || operation == 4'b1001)
         temp = a | b;
-        else if(operation == 4'b0100) 
+        else if(operation == 4'b0110 || operation == 4'b1110) 
         temp = a & b;
-        else if(operation == 4'b0101)
+        else if(operation == 4'b1010 || operation == 4'b1011)
         temp = a ^ b;
-        else if(operation == 4'b0110) 
-        temp = ~a;
-        else if(operation == 4'b0111)
-        temp = b;
-        else if(operation == 4'b1000) 
-        temp = b;
         
     end
     

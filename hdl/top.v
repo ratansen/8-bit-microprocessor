@@ -58,6 +58,9 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
     rom16_8bit mem(
         .addr(mar_out), .low_o_en(low_mem_out_en),.acc_out(acc_out), .data_out(bus), .op_code(op_code)
     );
+    always @(bus) 
+    $display("bus value after load = %h ",bus);
+    
 
     wire [7:0] ir_out;
     wire ld_ir;
@@ -65,6 +68,7 @@ module top(bus_high, bus_low, clk, out, clr, A, B, C, D, carry_flag, zero_flag);
     dff_posedge #(8) ir(
         .d(bus), .q(ir_out), .i_en(ld_ir), .clr(clr), .clk(buf_clk)
     );
+    
 
     tribuf_4bit buf0(.in(ir_out[3:0]), .out(bus[3:0]), .low_enable(low_ir_out_en));
     assign op_code = ir_out[7:4]; // Directly pass to control_sequencer // this is the opcode we can use directly 
